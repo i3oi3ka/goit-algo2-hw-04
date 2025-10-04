@@ -3,10 +3,38 @@ from trie import Trie
 
 class Homework(Trie):
     def count_words_with_suffix(self, pattern) -> int:
-        pass
+        if not isinstance(pattern, str):
+            raise TypeError(
+                f"Illegal argument for countWordsWithPrefix: prefix = {pattern} must be a string"
+            )
+
+        current = self.root
+        count = 0
+        for key in current.children:
+            if pattern[0] in current.children[key]:
+                i = 0
+                curr = current
+                while pattern[i] in curr.children:
+                    curr = curr.children[pattern[i]]
+                    i += 1
+                if i == len(pattern):
+                    count += 1
+
+        return count
 
     def has_prefix(self, prefix) -> bool:
-        pass
+        if not isinstance(prefix, str):
+            raise TypeError(
+                f"Illegal argument for countWordsWithPrefix: prefix = {prefix} must be a string"
+            )
+
+        current = self.root
+        for char in prefix:
+            if char not in current.children:
+                return False
+            current = current.children[char]
+
+        return True
 
 
 if __name__ == "__main__":
